@@ -9,8 +9,8 @@
 	<body>
 		<div class="container">
 			<?php 
-				include_once dirname(__FILE__)."/../vendor/autoload.php";
-				include_once dirname(__FILE__)."/Config.php";
+				require_once dirname(__FILE__)."/../vendor/autoload.php";
+                require_once dirname(__FILE__)."/Config.php";
 				
 				//clean input
 					\controller\Util::cleanPost();
