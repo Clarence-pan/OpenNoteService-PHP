@@ -37,8 +37,8 @@
 			catch(\Exception $e){}//no user found exception
 			
 			$user = new \model\dataTypes\User();
-				$user->userName = $userName;
-				$user->password = password_hash($password, PASSWORD_DEFAULT);//hash password
+			$user->userName = $userName;
+			$user->password = $password; //\password_hash($password, PASSWORD_DEFAULT);//hash password
 			$user = $model->createUser($user);
 			
 			$issueTime = new \DateTime("now",new \DateTimeZone("UTC"));
@@ -89,7 +89,9 @@
 		 * @return - returns true if the password matched
 		 */
 		public static function validatePassword($password,$hashedPassword){
-			return crypt($password, $hashedPassword)==$hashedPassword;
+//			return crypt($password, $hashedPassword)==$hashedPassword;
+//            \Slim\Slim::getInstance()->getLog()->info(" validate: $password == $hashedPassword");
+            return $password == $hashedPassword;
 		}
 		
 		/**

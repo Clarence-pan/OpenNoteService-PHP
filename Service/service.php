@@ -16,8 +16,11 @@
 	//clean input
 		\controller\Util::cleanPost();
 		\controller\Util::cleanGets();
-	
-	$app = new \Slim\Slim();
+    $logFile = fopen(dirname(__FILE__).'/service.log', 'a');
+    fputs($logFile, PHP_EOL."---------REQUEST: ".$_SERVER["REQUEST_METHOD"]." ".$_SERVER['REQUEST_URI']."--------".PHP_EOL);
+	$app = new \Slim\Slim(array(
+        'log.writer' => new \Slim\LogWriter($logFile)
+    ));
 	$app->contentType("application/json");//we return json on almost everything
 	 
 	/** 
@@ -306,4 +309,6 @@
     	});
     	
 	$app->run();
+
+    fclose($logFile);
 ?>	

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `folder` (
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`),
   KEY `parrentFolderID` (`parrentFolderID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5431 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5431 ;
 
 CREATE TABLE IF NOT EXISTS `note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `note` (
   KEY `originNote` (`originNoteID`),
   KEY `folderID` (`folderID`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5542 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5542 ;
 
 CREATE TABLE IF NOT EXISTS `token` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `token` (
   `issued` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `expires` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`token`),
+   -- UNIQUE KEY `token` (`token`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=176 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=176 ;
 
 CREATE TABLE IF NOT EXISTS `uploads` (
   `id` varchar(128) NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `uploads` (
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE (`userName`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 
 ALTER TABLE `folder`
