@@ -14,10 +14,13 @@
 	include_once dirname(__FILE__)."/Config.php";
 	
 	//clean input
-		\controller\Util::cleanPost();
-		\controller\Util::cleanGets();
-	
-	$app = new \Slim\Slim();
+	\controller\Util::cleanPost();
+	\controller\Util::cleanGets();
+    $logFile = fopen(dirname(__FILE__).'/service.log', 'a');
+    fputs($logFile, PHP_EOL."---------REQUEST: ".$_SERVER["REQUEST_METHOD"]." ".$_SERVER['REQUEST_URI']."--------".PHP_EOL);
+	$app = new \Slim\Slim(array(
+        'log.writer' => new \Slim\LogWriter($logFile)
+    ));
 	$app->contentType("application/json");//we return json on almost everything
 	 
 	/** 
@@ -28,6 +31,12 @@
 	 * DELETE to delete data
 	 */
 	//auth
+	$app->get("/salt", function() use ($app){
+		$salt = md5(rand());
+		setcookie('salt', $salt);
+		$app->response->setStatus(200);
+		$app->response->setBody(json_encode(array( 'salt' => $salt)));
+	});
 		//check username availability 
 			$app->get("/user/:user", function($user) use ($app){
 					$app->response->setStatus(\controller\Authenticater::checkAvailability($user, Config::getModel()));
@@ -306,4 +315,6 @@
     	});
     	
 	$app->run();
+
+    fclose($logFile);
 ?>	

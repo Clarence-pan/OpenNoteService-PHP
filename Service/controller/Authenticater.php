@@ -26,7 +26,6 @@
 		 * @param model - the model to use
 		 */
 		public static function register($userName, $password, $ip, \model\IModel $model){
-	
 			if(self::validateUsername($userName))
 				throw new \controller\ServiceException("Invalid username", 400);
 	
@@ -37,14 +36,13 @@
 			catch(\Exception $e){}//no user found exception
 			
 			$user = new \model\dataTypes\User();
-				$user->userName = $userName;
-				$user->password = password_hash($password, PASSWORD_DEFAULT);//hash password
+			$user->userName = $userName;
+			$user->password = $password; //\password_hash($password, PASSWORD_DEFAULT);//hash password
 			$user = $model->createUser($user);
 			
 			$issueTime = new \DateTime("now",new \DateTimeZone("UTC"));
 			$expireTime = new \DateTime("now",new \DateTimeZone("UTC"));
 			$expireTime->add(new \DateInterval(sprintf("PT%dM",\Config::tokenLife())));
-			
 			return $model->createToken($user->id, $ip, bin2hex(openssl_random_pseudo_bytes(16)), $issueTime, $expireTime);
 		}
 
@@ -80,16 +78,17 @@
 		 * @param username - the username to validate
 		 */
 		private static function validateUsername($username) {
-			return preg_match("/[^0-9a-z_]/i", $username);
+			return preg_match("/[^0-9a-z_-]/i", $username);
 		}
 		
 		/**
-		 * @param password - the password the user entered
-		 * @param $hashedPassword - the password that has been pre hashed
+		 * @param password - the password stored in db.
+		 * @param $hashedPassword - the password that has been pre hashed, which is from the user input.
 		 * @return - returns true if the password matched
 		 */
-		public static function validatePassword($password,$hashedPassword){
-			return crypt($password, $hashedPassword)==$hashedPassword;
+		public static function validatePassword($hashedPassword,$password){
+//			return crypt($password, $hashedPassword)==$hashedPassword;
+            return md5($password.$_COOKIE['salt']) == $hashedPassword;
 		}
 		
 		/**

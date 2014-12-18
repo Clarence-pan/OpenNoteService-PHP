@@ -16,8 +16,8 @@
 					return self::$injectedCoreConfig;
 					
 				//Un-comment desired database type
-					return self::sqliteConfig();
-				//return self::mysqlConfig();
+//					return self::sqliteConfig();
+				return self::mysqlConfig();
 				//return self::sqliteConfig();
 			}
 
@@ -28,7 +28,7 @@
 					//pdo
 						//Path to DB. Do not put in webdirectory without protection! If you do anyone can download your database!
 //						$dbName = "OpenNote.sqlite"; //relative path to sqllite db
-                        $dbName = '../../notebook.db';
+                        $dbName = '/db/notebook.db';
 						// PDO cannot find database file when it's "%s\%s" on Ubuntu 14.04
 						return new PDO(sprintf("sqlite:%s/%s",dirname(__FILE__),$dbName));
 				}
@@ -38,10 +38,10 @@
 				 */
 				private static function mysqlConfig(){			
 					//mysql
-						$dbUserName = "";
-						$dbPassword = "";
-						$dbServer = "";
-						$dbName = "";
+						$dbUserName = "note";
+						$dbPassword = "a63b5d79a25c3";
+						$dbServer = "127.0.0.1:3306";
+						$dbName = "notebook";
 						
 						return new PDO(sprintf("mysql:host=%s;dbname=%s", $dbServer, $dbName), $dbUserName, $dbPassword);
 				}

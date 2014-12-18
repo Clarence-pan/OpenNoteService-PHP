@@ -353,7 +353,9 @@
 		 * @return \model\dataTypes\User - the user with db ID
 		 */
 		public function createUser(\model\dataTypes\User $user){
+	        //\Slim\Slim::getInstance()->getLog()->info( __FUNCTION__.__LINE__);
 			$result = Core::query("INSERT INTO users(userName, password) VALUES(?,?);", array($user->userName, $user->password));
+	        //\Slim\Slim::getInstance()->getLog()->info(__FUNCTION__.__LINE__);
 			$user->id = Core::getInsertID();
 			return $user;
 		}
